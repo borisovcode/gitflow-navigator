@@ -47,8 +47,28 @@ public class GitflowImpl extends GitImpl implements Gitflow {
     private void addOptionsCommand(GitLineHandler h, Project project, String optionId){
         HashMap<String,String> optionMap = GitflowOptionsFactory.getOptionById(optionId);
         if (GitflowConfigurable.isOptionActive(project, optionMap.get("id"))){
-            h.addParameters(optionMap.get("flag"));
+            h.addParameters(translateFlag(project, optionMap.get("flag")));
         }
+    }
+
+    /**
+     * git-flow-next exposes some options only in their long form, while
+     * git-flow-avh uses short flags for the same operations:
+     * {@code -F} (fetch) and {@code -p} (push).
+     */
+    private static String translateFlag(Project project, String flag) {
+        if (flag == null) {
+            return null;
+        }
+        if (GitflowVersionTester.getEdition(project) == GitflowVersionTester.Edition.NEXT) {
+            if ("-F".equals(flag)) {
+                return "--fetch";
+            }
+            if ("-p".equals(flag)) {
+                return "--push";
+            }
+        }
+        return flag;
     }
 
     public GitCommandResult initRepo(@NotNull GitRepository repository,
@@ -65,11 +85,14 @@ public class GitflowImpl extends GitImpl implements Gitflow {
     private GitCommandResult callInit(@NotNull GitRepository repository,
             GitflowInitOptions initOptions, boolean reInit,
             @Nullable GitLineHandlerListener[] listeners) {
+        Project project = repository.getProject();
+        boolean next = GitflowVersionTester.getEdition(project) == GitflowVersionTester.Edition.NEXT;
+
         GitLineHandler h;
-        if (initOptions.isUseDefaults()) {
-            h = new GitLineHandler(repository.getProject(), repository.getRoot(), GitflowCommand());
+        if (initOptions.isUseDefaults() || next) {
+            h = new GitLineHandler(project, repository.getRoot(), GitflowCommand());
         } else {
-            h = new GitInitLineHandler(initOptions, repository.getProject(),
+            h = new GitInitLineHandler(initOptions, project,
                     repository.getRoot(), GitflowCommand());
         }
 
@@ -81,6 +104,13 @@ public class GitflowImpl extends GitImpl implements Gitflow {
 
         if (initOptions.isUseDefaults()) {
             h.addParameters("-d");
+        } else if (next) {
+            // git-flow-next supports non-interactive configuration via flags,
+            // which is more robust than matching its interactive prompts.
+            addNextInitFlags(h, initOptions);
+            for (GitLineHandlerListener listener : listeners) {
+                h.addLineListener(listener);
+            }
         } else {
             for (GitLineHandlerListener listener : listeners) {
                 h.addLineListener(listener);
@@ -92,6 +122,23 @@ public class GitflowImpl extends GitImpl implements Gitflow {
         }
 
         return runCommand(h);
+    }
+
+    private static void addNextInitFlags(GitLineHandler h, GitflowInitOptions options) {
+        addFlag(h, "--main", options.getProductionBranch());
+        addFlag(h, "--develop", options.getDevelopmentBranch());
+        addFlag(h, "--feature", options.getFeaturePrefix());
+        addFlag(h, "--bugfix", options.getBugfixPrefix());
+        addFlag(h, "--release", options.getReleasePrefix());
+        addFlag(h, "--hotfix", options.getHotfixPrefix());
+        addFlag(h, "--support", options.getSupportPrefix());
+        addFlag(h, "--tag", options.getVersionPrefix());
+    }
+
+    private static void addFlag(GitLineHandler h, String flag, @Nullable String value) {
+        if (value != null && !value.isEmpty()) {
+            h.addParameters(flag, value);
+        }
     }
 
 

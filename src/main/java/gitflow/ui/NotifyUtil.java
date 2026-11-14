@@ -6,8 +6,8 @@ import com.intellij.openapi.project.Project;
 
 public class NotifyUtil
 {
-    private static final String ERRORS_GROUP = "Gitflow Errors";
-    private static final String NOTIFICATIONS_GROUP = "Gitflow Notifications";
+    private static final String ERRORS_GROUP = "Gitflow Navigator Errors";
+    private static final String NOTIFICATIONS_GROUP = "Gitflow Navigator Notifications";
 
     public static void notifySuccess(Project project, String title, String message) {
         notify(NotificationType.INFORMATION, NOTIFICATIONS_GROUP, project, title, message);

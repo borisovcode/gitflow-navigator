@@ -13,6 +13,8 @@ import gitflow.ui.NotifyUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -36,6 +38,7 @@ public class GitflowConfigUtil {
 
     Project project;
     GitRepository repo;
+    private volatile Map<String, Map<String, String>> nextBranches = new HashMap<>();
     public String masterBranch;
     public String developBranch;
     public String featurePrefix;
@@ -73,13 +76,16 @@ public class GitflowConfigUtil {
     }
 
     public void update(){
-        VirtualFile root = repo.getRoot();
+        final VirtualFile root = repo.getRoot();
 
         try{
             Future<Void> f = (Future<Void>) ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
                 @Override
                 public void run() {
                     try{
+                        // git-flow AVH keys. They are also present in repositories
+                        // that were initialized with AVH and later used with
+                        // git-flow-next (which imports but does not delete them).
                         masterBranch = GitConfigUtil.getValue(project, root, BRANCH_MASTER);
                         developBranch = GitConfigUtil.getValue(project, root, BRANCH_DEVELOP);
                         featurePrefix = GitConfigUtil.getValue(project,root,PREFIX_FEATURE);
@@ -88,6 +94,9 @@ public class GitflowConfigUtil {
                         bugfixPrefix = GitConfigUtil.getValue(project,root,PREFIX_BUGFIX);
                         supportPrefix = GitConfigUtil.getValue(project,root,PREFIX_SUPPORT);
                         versiontagPrefix = GitConfigUtil.getValue(project,root,PREFIX_VERSIONTAG);
+
+                        // git-flow-next keys.
+                        applyGitFlowNextConfig(root);
                     } catch (VcsException e) {
                         NotifyUtil.notifyError(project, "Config error", e);
                     }
@@ -99,6 +108,94 @@ public class GitflowConfigUtil {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Reads the git-flow-next configuration model:
+     * {@code gitflow.branch.<name>.type/parent/startpoint/prefix/tagprefix}.
+     * AVH keys take precedence when both models are present.
+     */
+    private void applyGitFlowNextConfig(VirtualFile root) throws VcsException {
+        Map<String, List<String>> raw = GitConfigUtil.getValues(project, root, "^gitflow\\.branch\\.");
+        if (raw == null || raw.isEmpty()) {
+            return;
+        }
+
+        Map<String, Map<String, String>> branches = new HashMap<>();
+        for (Map.Entry<String, List<String>> entry : raw.entrySet()) {
+            String key = entry.getKey();
+            if (key == null || !key.startsWith("gitflow.branch.") || entry.getValue().isEmpty()) {
+                continue;
+            }
+            String rest = key.substring("gitflow.branch.".length());
+            int lastDot = rest.lastIndexOf('.');
+            if (lastDot <= 0) {
+                continue;
+            }
+            String name = rest.substring(0, lastDot);
+            String property = rest.substring(lastDot + 1).toLowerCase(Locale.ROOT);
+            branches.computeIfAbsent(name, k -> new HashMap<>()).put(property, entry.getValue().get(0));
+        }
+        nextBranches = branches;
+
+        String trunk = null;
+        String develop = null;
+        for (Map.Entry<String, Map<String, String>> entry : branches.entrySet()) {
+            Map<String, String> properties = entry.getValue();
+            if (!"base".equalsIgnoreCase(properties.getOrDefault("type", ""))) {
+                continue;
+            }
+            String parent = properties.get("parent");
+            if (parent == null || parent.isEmpty()) {
+                if (trunk == null) {
+                    trunk = entry.getKey();
+                }
+            } else if (develop == null) {
+                develop = entry.getKey();
+            }
+        }
+
+        if (masterBranch == null) {
+            masterBranch = trunk != null ? trunk : findBase(branches, "main", "master");
+        }
+        if (developBranch == null) {
+            developBranch = develop != null ? develop : findBase(branches, "develop");
+        }
+        if (featurePrefix == null) {
+            featurePrefix = propertyOf(branches, "feature", "prefix");
+        }
+        if (bugfixPrefix == null) {
+            bugfixPrefix = propertyOf(branches, "bugfix", "prefix");
+        }
+        if (releasePrefix == null) {
+            releasePrefix = propertyOf(branches, "release", "prefix");
+        }
+        if (hotfixPrefix == null) {
+            hotfixPrefix = propertyOf(branches, "hotfix", "prefix");
+        }
+        if (supportPrefix == null) {
+            supportPrefix = propertyOf(branches, "support", "prefix");
+        }
+        if (versiontagPrefix == null) {
+            versiontagPrefix = propertyOf(branches, "release", "tagprefix");
+            if (versiontagPrefix == null) {
+                versiontagPrefix = propertyOf(branches, "hotfix", "tagprefix");
+            }
+        }
+    }
+
+    private static String findBase(Map<String, Map<String, String>> branches, String... names) {
+        for (String name : names) {
+            if (branches.containsKey(name)) {
+                return name;
+            }
+        }
+        return null;
+    }
+
+    private static String propertyOf(Map<String, Map<String, String>> branches, String type, String property) {
+        Map<String, String> properties = branches.get(type);
+        return properties == null ? null : properties.get(property);
     }
 
 
@@ -222,6 +319,31 @@ public class GitflowConfigUtil {
             NotifyUtil.notifyError(project, "Config error", e);
         }
 
+        if (baseBranch == null) {
+            // git-flow-next stores the start point per topic type, not per branch.
+            if (featurePrefix != null && branchName.startsWith(featurePrefix)) {
+                baseBranch = topicBase("feature");
+            } else if (bugfixPrefix != null && branchName.startsWith(bugfixPrefix)) {
+                baseBranch = topicBase("bugfix");
+            } else if (releasePrefix != null && branchName.startsWith(releasePrefix)) {
+                baseBranch = topicBase("release");
+            } else if (hotfixPrefix != null && branchName.startsWith(hotfixPrefix)) {
+                baseBranch = topicBase("hotfix");
+            }
+        }
+
         return baseBranch;
+    }
+
+    private String topicBase(String type) {
+        String startpoint = propertyOf(nextBranches, type, "startpoint");
+        if (startpoint != null && !startpoint.isEmpty()) {
+            return startpoint;
+        }
+        String parent = propertyOf(nextBranches, type, "parent");
+        if (parent != null && !parent.isEmpty()) {
+            return parent;
+        }
+        return ("feature".equals(type) || "bugfix".equals(type)) ? developBranch : masterBranch;
     }
 }

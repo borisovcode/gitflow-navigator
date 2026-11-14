@@ -5,8 +5,8 @@ plugins {
     id 'org.jetbrains.intellij.platform' version '2.19.0'
 }
 
-group = 'gitflow4idea'
-version = '0.7.10'
+group = 'com.borisovcode.gitflow'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -75,10 +75,15 @@ intellijPlatform {
         }
     }
     pluginConfiguration {
-        id = 'Gitflow'
-        name = 'Git Flow Integration'
-        version = '0.7.10'
-        description = "Git Flow Integration - a UI layer for Vincent Driessen's git-flow branching model (feature, release, hotfix and bugfix branches) right inside the IDE."
+        id = 'com.borisovcode.gitflow.navigator'
+        name = 'Gitflow Navigator'
+        version = '1.0.0'
+        description = "Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next."
+
+        vendor {
+            name = 'BorisovCode'
+            url = 'https://github.com/borisovcode'
+        }
 
         ideaVersion {
             sinceBuild = '262'
@@ -87,6 +92,13 @@ intellijPlatform {
         }
 
         changeNotes = """
+
+      <H2>Changelog for 1.0.0</H2>
+      <ul>
+        <li>First release of Gitflow Navigator, a maintained fork of Git Flow Integration</li>
+        <li>Support for IntelliJ Platform 2026.2 and 2026.3</li>
+        <li>Works with git-flow AVH and git-flow-next</li>
+      </ul>
 
       <H2>Changelog for 0.7.10</H2>
       <ul>

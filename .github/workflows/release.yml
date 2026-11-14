@@ -41,13 +41,13 @@ jobs:
           cat > build/distributions/updatePlugins.xml <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <plugins>
-            <plugin id="Gitflow"
-                    url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${{ steps.meta.outputs.tag }}/gitflow4idea-${{ steps.meta.outputs.version }}.zip"
+            <plugin id="com.borisovcode.gitflow.navigator"
+                    url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${{ steps.meta.outputs.tag }}/gitflow-navigator-${{ steps.meta.outputs.version }}.zip"
                     version="${{ steps.meta.outputs.version }}">
               <idea-version since-build="262" />
-              <name>Git Flow Integration</name>
-              <description>Git Flow Integration - a UI layer for Vincent Driessen's git-flow branching model (feature, release, hotfix and bugfix branches) right inside the IDE.</description>
-              <vendor>Opher Vishnia</vendor>
+              <name>Gitflow Navigator</name>
+              <description>Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next.</description>
+              <vendor>BorisovCode</vendor>
             </plugin>
           </plugins>
           EOF
@@ -57,22 +57,27 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
-          name: "${{ steps.meta.outputs.version }} — WebStorm / PyCharm 2026.2–2026.3 support"
+          name: "${{ steps.meta.outputs.version }} — Gitflow Navigator for JetBrains IDEs (2026.2–2026.3)"
           fail_on_unmatched_files: true
           body: |
-            IntelliJ Platform **2026.2 / 2026.3** support — verified with WebStorm 2026.2.3 and 2026.3
-            as well as PyCharm 2026.2.3 and 2026.3.
+            **Gitflow Navigator** — a Git Flow UI for IntelliJ IDEA, WebStorm and PyCharm.
+            A maintained fork of *Git Flow Integration* supporting both **git-flow AVH** and **git-flow-next**.
+
+            Verified with IntelliJ Platform **2026.2 / 2026.3** (WebStorm and PyCharm).
 
             **Install from disk**
-            1. Download `gitflow4idea-${{ steps.meta.outputs.version }}.zip` from the Assets section below.
-            2. In WebStorm / PyCharm: **Settings → Plugins → ⚙ → Install Plugin from Disk…** → select the ZIP.
+            1. Download `gitflow-navigator-${{ steps.meta.outputs.version }}.zip` from the Assets section below.
+            2. In your IDE: **Settings → Plugins → ⚙ → Install Plugin from Disk…** → select the ZIP.
             3. Restart the IDE.
 
             **Install or update from the IDE**
             Add a custom plugin repository in *Settings → Plugins → ⚙ → Manage Plugin Repositories…*:
             `https://github.com/${{ github.repository }}/releases/latest/download/updatePlugins.xml`
 
-            Requires the [git-flow (AVH edition)](https://github.com/petervanderdoes/gitflow) CLI.
+            Requires a git-flow CLI: [git-flow AVH](https://github.com/petervanderdoes/gitflow-avh)
+            or [git-flow-next](https://github.com/gittower/git-flow-next).
+
+            Based on Git Flow Integration by Opher Vishnia and contributors (Apache 2.0).
           files: |
-            build/distributions/gitflow4idea-*.zip
+            build/distributions/gitflow-navigator-*.zip
             build/distributions/updatePlugins.xml

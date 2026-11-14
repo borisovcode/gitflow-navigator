@@ -20,7 +20,7 @@ public class GitflowStatusBarWidgetFactory implements StatusBarWidgetFactory {
     @NotNull
     @Override
     public String getDisplayName() {
-        return "GitFlow status bar";
+        return "Gitflow Navigator status bar";
     }
     @Override
     public boolean isAvailable(@NotNull Project project) {

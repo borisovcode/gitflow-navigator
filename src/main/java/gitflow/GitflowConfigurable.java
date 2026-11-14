@@ -40,7 +40,7 @@ public class GitflowConfigurable implements Configurable {
 
     @Override
     public String getDisplayName() {
-        return "Gitflow";
+        return "Gitflow Navigator";
     }
 
     @Nullable

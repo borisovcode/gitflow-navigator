@@ -1,0 +1,26 @@
+Gitflow Navigator
+Copyright 2026 BorisovCode
+
+This product is a fork of "Git Flow Integration"
+(https://github.com/OpherV/gitflow4idea),
+Copyright 2013-2021 Opher Vishnia and contributors,
+licensed under the Apache License, Version 2.0.
+
+Significant modifications since the fork:
+- support for IntelliJ Platform 2026.2 and 2026.3
+- migration to the IntelliJ Platform Gradle Plugin 2.x
+- support for both git-flow AVH and git-flow-next
+- numerous API, threading and bug fixes
+- new plugin identity (Gitflow Navigator)
+
+The original copyright notices are retained in the source files, and the full
+git history of the original project is preserved in this repository.
+
+This project is not affiliated with, sponsored by, or endorsed by the original
+author of Git Flow Integration or by the maintainers of git-flow-next.
+
+Third-party projects referenced by this plugin:
+- git-flow, by Vincent Driessen (the branching model)
+- git-flow AVH, by Peter van der Does and contributors
+- git-flow-next, by the Tower team
+- IntelliJ Platform and git4idea, by JetBrains

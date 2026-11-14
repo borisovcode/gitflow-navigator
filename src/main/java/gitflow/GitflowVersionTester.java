@@ -12,6 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GitflowVersionTester {
 
+	/** Which git-flow CLI implementation is installed. */
+	public enum Edition {
+		AVH,
+		NEXT,
+		UNKNOWN
+	}
+
 	private static final Logger logger = Logger.getInstance(GitflowVersionTester.class);
 
 	private static final Map<Project, GitflowVersionTester> testers = new ConcurrentHashMap<>();
@@ -26,10 +33,23 @@ public class GitflowVersionTester {
 		);
 	}
 
+	/**
+	 * Returns the CLI edition, detecting it (synchronously) on first use.
+	 * Callers must not invoke this on the EDT.
+	 */
+	@NotNull
+	public static Edition getEdition(@NotNull Project project) {
+		GitflowVersionTester tester = forProject(project);
+		if (!tester.hasVersionBeenTested()) {
+			tester.init();
+		}
+		return tester.getEdition();
+	}
+
 	@NotNull private final Gitflow gitflow;
 	@NotNull private final Project project;
 
-	private String version = null;
+	private volatile String version = null;
 
 	private GitflowVersionTester(@NotNull Gitflow gitflow, @NotNull Project project) {
 		this.gitflow = gitflow;
@@ -50,21 +70,41 @@ public class GitflowVersionTester {
 	}
 
 	/**
-	 * Returns true if the {@code git flow} version can be determined
-	 * and is any AVH version ({@code #contains("AVH")}) and
-	 * not the unmaintained NVIE version.
-	 *
-	 * @return true if we think the git flow version is an AVH version.
+	 * Returns which CLI implementation produced the version string.
+	 * git-flow-next prints e.g. {@code 2.1.0 (git-flow-next)}, while
+	 * git-flow-avh prints e.g. {@code 1.12.3 (AVH Edition)}.
 	 */
-	public boolean isSupportedVersion() {
-		return version != null && version.contains("AVH");
+	@NotNull
+	public Edition getEdition() {
+		String v = version;
+		if (v == null) {
+			return Edition.UNKNOWN;
+		}
+		if (v.contains("git-flow-next")) {
+			return Edition.NEXT;
+		}
+		if (v.contains("AVH")) {
+			return Edition.AVH;
+		}
+		return Edition.UNKNOWN;
 	}
 
-	public void init(){
+	/**
+	 * Returns true if the {@code git flow} CLI is either git-flow-avh or
+	 * git-flow-next.
+	 */
+	public boolean isSupportedVersion() {
+		return getEdition() != Edition.UNKNOWN;
+	}
+
+	public synchronized void init(){
+		if (version != null) {
+			return;
+		}
 		String returnedVersion = null;
 		try {
 			returnedVersion = gitflow.version(project).getOutputOrThrow();
-			logger.info("git flow version: " + version);
+			logger.info("git flow version: " + returnedVersion);
 		} catch (Exception e) {
 			logger.error("Could not determine git flow version", e);
 		}
