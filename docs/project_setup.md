@@ -69,7 +69,7 @@ The remaining options can be left at default
     
 ### 4. Change the project type
 
-Open the projects iml file (it should be named `gitflow4idea.iml` by default) and replace its contents with this:
+Open the projects iml file (it should be named `gitflow-navigator.iml` by default) and replace its contents with this:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -89,14 +89,14 @@ Then close and reopen the project to apply the changes.
 
 ### 5. Add git4idea dependency
 
-1. Open the module settings and navigate to *Modules -> gitflow4idea (or your project name here)* and select the *Dependencies* tab. 
+1. Open the module settings and navigate to *Modules -> gitflow-navigator (or your project name here)* and select the *Dependencies* tab. 
 2. Click add -> "JARs or directories" and add `git4idea.jar`.
     This can be found in your IDEA installation directory under `plugins/git4idea/lib`.
 3. Change the scope of the added JAR to **provided**.
 
 ### 6. Create a run configuration
 
-Go to Run/Debug configurations and create a new configuration of the type `Plugin`. Under "Use classpath of module" select the project (`gitflow4idea` by default).
+Go to Run/Debug configurations and create a new configuration of the type `Plugin`. Under "Use classpath of module" select the project (`gitflow-navigator` by default).
 Click run. A new IDEA instance should start with the plugin running. 
 
 And that's it. You can now make changes to the source and run them.
