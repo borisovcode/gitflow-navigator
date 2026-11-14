@@ -21,7 +21,7 @@ public class GitflowOptionsFactory {
         optionsMap = new HashMap<String, HashMap<String,String>>();
 
         addBranchType(TYPE.FEATURE);
-        addOption(TYPE.FEATURE, "Fetch from Origin", "fetchFromOrigin" , "-F");
+        addOption(TYPE.FEATURE, "Fetch from Origin", "fetchFromOrigin" , "--fetch");
         addOption(TYPE.FEATURE, "Keep Local", "keepLocal", "--keeplocal");
         addOption(TYPE.FEATURE, "Keep Remote", "keepRemote", "--keepremote");
         addOption(TYPE.FEATURE, "Keep branch after performing finish", "keepBranch" , "-k");
@@ -30,8 +30,8 @@ public class GitflowOptionsFactory {
 //        addOption(TYPE.FEATURE, "Squash feature during merge", "squash" , "-S");
 
         addBranchType(TYPE.RELEASE);
-        addOption(TYPE.RELEASE, "Fetch from Origin", "fetchFromOrigin" , "-F");
-        addOption(TYPE.RELEASE, "Push on finish release", "pushOnFinish" , "-p");
+        addOption(TYPE.RELEASE, "Fetch from Origin", "fetchFromOrigin" , "--fetch");
+        addOption(TYPE.RELEASE, "Push on finish release", "pushOnFinish" , "--push");
         addOption(TYPE.RELEASE, "Keep Local", "keepLocal", "--keeplocal");
         addOption(TYPE.RELEASE, "Keep Remote", "keepRemote", "--keepremote");
         addOption(TYPE.RELEASE, "Keep branch after performing finish", "keepBranch" , "-k");
@@ -40,14 +40,14 @@ public class GitflowOptionsFactory {
         addOption(TYPE.RELEASE, "Use custom tag commit message", "customTagCommitMessage" , null, DefaultOptions.getOption("RELEASE_customTagCommitMessage") ,"Use %name% for the branch name");
 
         addBranchType(TYPE.HOTFIX);
-        addOption(TYPE.HOTFIX, "Fetch from Origin", "fetchFromOrigin" , "-F");
+        addOption(TYPE.HOTFIX, "Fetch from Origin", "fetchFromOrigin" , "--fetch");
         addOption(TYPE.HOTFIX, "Keep branch after performing finish", "keepBranch" , "-k");
-        addOption(TYPE.HOTFIX, "Push on finish Hotfix", "pushOnFinish" , "-p");
+        addOption(TYPE.HOTFIX, "Push on finish Hotfix", "pushOnFinish" , "--push");
         addOption(TYPE.HOTFIX, "Don't tag Hotfix", "dontTag" , "-n");
         addOption(TYPE.HOTFIX, "Use custom hotfix commit message", "customHotfixCommitMessage" , null, DefaultOptions.getOption("HOTFIX_customHotfixCommitMessage") ,"Use %name% for the branch name");
 
         addBranchType(TYPE.BUGFIX);
-        addOption(TYPE.BUGFIX, "Fetch from Origin", "fetchFromOrigin" , "-F");
+        addOption(TYPE.BUGFIX, "Fetch from Origin", "fetchFromOrigin" , "--fetch");
         addOption(TYPE.BUGFIX, "Keep Local", "keepLocal", "--keeplocal");
         addOption(TYPE.BUGFIX, "Keep Remote", "keepRemote", "--keepremote");
         addOption(TYPE.BUGFIX, "Keep branch after performing finish", "keepBranch" , "-k");

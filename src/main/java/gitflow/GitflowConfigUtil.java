@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -38,7 +37,7 @@ public class GitflowConfigUtil {
 
     Project project;
     GitRepository repo;
-    private volatile Map<String, Map<String, String>> nextBranches = new HashMap<>();
+    private volatile GitflowConfigModel nextConfig;
     public String masterBranch;
     public String developBranch;
     public String featurePrefix;
@@ -117,85 +116,33 @@ public class GitflowConfigUtil {
      */
     private void applyGitFlowNextConfig(VirtualFile root) throws VcsException {
         Map<String, List<String>> raw = GitConfigUtil.getValues(project, root, "^gitflow\\.branch\\.");
-        if (raw == null || raw.isEmpty()) {
-            return;
-        }
-
-        Map<String, Map<String, String>> branches = new HashMap<>();
-        for (Map.Entry<String, List<String>> entry : raw.entrySet()) {
-            String key = entry.getKey();
-            if (key == null || !key.startsWith("gitflow.branch.") || entry.getValue().isEmpty()) {
-                continue;
-            }
-            String rest = key.substring("gitflow.branch.".length());
-            int lastDot = rest.lastIndexOf('.');
-            if (lastDot <= 0) {
-                continue;
-            }
-            String name = rest.substring(0, lastDot);
-            String property = rest.substring(lastDot + 1).toLowerCase(Locale.ROOT);
-            branches.computeIfAbsent(name, k -> new HashMap<>()).put(property, entry.getValue().get(0));
-        }
-        nextBranches = branches;
-
-        String trunk = null;
-        String develop = null;
-        for (Map.Entry<String, Map<String, String>> entry : branches.entrySet()) {
-            Map<String, String> properties = entry.getValue();
-            if (!"base".equalsIgnoreCase(properties.getOrDefault("type", ""))) {
-                continue;
-            }
-            String parent = properties.get("parent");
-            if (parent == null || parent.isEmpty()) {
-                if (trunk == null) {
-                    trunk = entry.getKey();
-                }
-            } else if (develop == null) {
-                develop = entry.getKey();
-            }
-        }
+        GitflowConfigModel model = GitflowConfigModel.parse(raw);
+        nextConfig = model;
 
         if (masterBranch == null) {
-            masterBranch = trunk != null ? trunk : findBase(branches, "main", "master");
+            masterBranch = model.getTrunk();
         }
         if (developBranch == null) {
-            developBranch = develop != null ? develop : findBase(branches, "develop");
+            developBranch = model.getDevelop();
         }
         if (featurePrefix == null) {
-            featurePrefix = propertyOf(branches, "feature", "prefix");
+            featurePrefix = model.prefix("feature");
         }
         if (bugfixPrefix == null) {
-            bugfixPrefix = propertyOf(branches, "bugfix", "prefix");
+            bugfixPrefix = model.prefix("bugfix");
         }
         if (releasePrefix == null) {
-            releasePrefix = propertyOf(branches, "release", "prefix");
+            releasePrefix = model.prefix("release");
         }
         if (hotfixPrefix == null) {
-            hotfixPrefix = propertyOf(branches, "hotfix", "prefix");
+            hotfixPrefix = model.prefix("hotfix");
         }
         if (supportPrefix == null) {
-            supportPrefix = propertyOf(branches, "support", "prefix");
+            supportPrefix = model.prefix("support");
         }
         if (versiontagPrefix == null) {
-            versiontagPrefix = propertyOf(branches, "release", "tagprefix");
-            if (versiontagPrefix == null) {
-                versiontagPrefix = propertyOf(branches, "hotfix", "tagprefix");
-            }
+            versiontagPrefix = model.tagPrefix();
         }
-    }
-
-    private static String findBase(Map<String, Map<String, String>> branches, String... names) {
-        for (String name : names) {
-            if (branches.containsKey(name)) {
-                return name;
-            }
-        }
-        return null;
-    }
-
-    private static String propertyOf(Map<String, Map<String, String>> branches, String type, String property) {
-        Map<String, String> properties = branches.get(type);
-        return properties == null ? null : properties.get(property);
     }
 
 
@@ -336,13 +283,19 @@ public class GitflowConfigUtil {
     }
 
     private String topicBase(String type) {
-        String startpoint = propertyOf(nextBranches, type, "startpoint");
-        if (startpoint != null && !startpoint.isEmpty()) {
-            return startpoint;
-        }
-        String parent = propertyOf(nextBranches, type, "parent");
-        if (parent != null && !parent.isEmpty()) {
-            return parent;
+        GitflowConfigModel model = nextConfig;
+        if (model != null) {
+            GitflowConfigModel.Branch branch = model.getBranches().get(type);
+            if (branch != null) {
+                String startpoint = branch.getStartPoint();
+                if (startpoint != null && !startpoint.isEmpty()) {
+                    return startpoint;
+                }
+                String parent = branch.getParent();
+                if (parent != null && !parent.isEmpty()) {
+                    return parent;
+                }
+            }
         }
         return ("feature".equals(type) || "bugfix".equals(type)) ? developBranch : masterBranch;
     }

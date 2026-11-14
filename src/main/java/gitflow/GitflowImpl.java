@@ -47,28 +47,9 @@ public class GitflowImpl extends GitImpl implements Gitflow {
     private void addOptionsCommand(GitLineHandler h, Project project, String optionId){
         HashMap<String,String> optionMap = GitflowOptionsFactory.getOptionById(optionId);
         if (GitflowConfigurable.isOptionActive(project, optionMap.get("id"))){
-            h.addParameters(translateFlag(project, optionMap.get("flag")));
+            GitflowCliEdition edition = GitflowVersionTester.getEdition(project);
+            h.addParameters(GitflowFlagMapper.map(edition, optionId, optionMap.get("flag")));
         }
-    }
-
-    /**
-     * git-flow-next exposes some options only in their long form, while
-     * git-flow-avh uses short flags for the same operations:
-     * {@code -F} (fetch) and {@code -p} (push).
-     */
-    private static String translateFlag(Project project, String flag) {
-        if (flag == null) {
-            return null;
-        }
-        if (GitflowVersionTester.getEdition(project) == GitflowVersionTester.Edition.NEXT) {
-            if ("-F".equals(flag)) {
-                return "--fetch";
-            }
-            if ("-p".equals(flag)) {
-                return "--push";
-            }
-        }
-        return flag;
     }
 
     public GitCommandResult initRepo(@NotNull GitRepository repository,
@@ -86,7 +67,7 @@ public class GitflowImpl extends GitImpl implements Gitflow {
             GitflowInitOptions initOptions, boolean reInit,
             @Nullable GitLineHandlerListener[] listeners) {
         Project project = repository.getProject();
-        boolean next = GitflowVersionTester.getEdition(project) == GitflowVersionTester.Edition.NEXT;
+        boolean next = GitflowVersionTester.getEdition(project) == GitflowCliEdition.NEXT;
 
         GitLineHandler h;
         if (initOptions.isUseDefaults() || next) {

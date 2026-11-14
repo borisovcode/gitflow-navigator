@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.borisovcode.gitflow'
-version = '1.0.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -36,6 +36,8 @@ dependencies {
         pluginVerifier()
         zipSigner()
     }
+
+    testImplementation 'junit:junit:4.13.2'
 }
 
 // The IntelliJ Platform 2026.x is built with Java 25.
@@ -77,7 +79,7 @@ intellijPlatform {
     pluginConfiguration {
         id = 'com.borisovcode.gitflow.navigator'
         name = 'Gitflow Navigator'
-        version = '1.0.0'
+        version = '1.0.1'
         description = "Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next."
 
         vendor {
@@ -92,6 +94,13 @@ intellijPlatform {
         }
 
         changeNotes = """
+
+      <H2>Changelog for 1.0.1</H2>
+      <ul>
+        <li>Show canonical --fetch/--push flags in the options dialog (mapped per CLI)</li>
+        <li>Refresh the status bar widget after the CLI version check</li>
+        <li>Add unit tests for CLI detection, configuration parsing and flag mapping</li>
+      </ul>
 
       <H2>Changelog for 1.0.0</H2>
       <ul>

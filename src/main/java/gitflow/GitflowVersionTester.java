@@ -12,13 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GitflowVersionTester {
 
-	/** Which git-flow CLI implementation is installed. */
-	public enum Edition {
-		AVH,
-		NEXT,
-		UNKNOWN
-	}
-
 	private static final Logger logger = Logger.getInstance(GitflowVersionTester.class);
 
 	private static final Map<Project, GitflowVersionTester> testers = new ConcurrentHashMap<>();
@@ -38,7 +31,7 @@ public class GitflowVersionTester {
 	 * Callers must not invoke this on the EDT.
 	 */
 	@NotNull
-	public static Edition getEdition(@NotNull Project project) {
+	public static GitflowCliEdition getEdition(@NotNull Project project) {
 		GitflowVersionTester tester = forProject(project);
 		if (!tester.hasVersionBeenTested()) {
 			tester.init();
@@ -75,18 +68,8 @@ public class GitflowVersionTester {
 	 * git-flow-avh prints e.g. {@code 1.12.3 (AVH Edition)}.
 	 */
 	@NotNull
-	public Edition getEdition() {
-		String v = version;
-		if (v == null) {
-			return Edition.UNKNOWN;
-		}
-		if (v.contains("git-flow-next")) {
-			return Edition.NEXT;
-		}
-		if (v.contains("AVH")) {
-			return Edition.AVH;
-		}
-		return Edition.UNKNOWN;
+	public GitflowCliEdition getEdition() {
+		return GitflowCliEdition.detect(version);
 	}
 
 	/**
@@ -94,7 +77,7 @@ public class GitflowVersionTester {
 	 * git-flow-next.
 	 */
 	public boolean isSupportedVersion() {
-		return getEdition() != Edition.UNKNOWN;
+		return getEdition() != GitflowCliEdition.UNKNOWN;
 	}
 
 	public synchronized void init(){

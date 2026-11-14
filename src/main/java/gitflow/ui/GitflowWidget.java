@@ -282,6 +282,9 @@ public class GitflowWidget extends GitBranchWidget implements GitRepositoryChang
                     VcsRoot[] vcsRoots = ProjectLevelVcsManager.getInstance(getProject()).getAllVcsRoots();
                     if (vcsRoots.length > 0 && vcsRoots[0].getVcs() instanceof GitVcs) {
                         GitflowVersionTester.forProject(getProject()).init();
+                        // Refresh the widget so the result of the version check
+                        // (supported / unsupported) is reflected immediately.
+                        updateAsync();
                     }
 
                 }
