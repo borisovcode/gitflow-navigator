@@ -25,6 +25,14 @@ Works with both CLI implementations:
 
 A `git flow` CLI (`git-flow` or `git-flow-next`) must be available on `PATH`.
 
+## Screenshots
+
+![Gitflow Navigator menu](docs/marketplace/screenshots/01-menu.png)
+
+![New Feature dialog](docs/marketplace/screenshots/02-start-feature.png)
+
+![Gitflow Navigator settings](docs/marketplace/screenshots/03-options.png)
+
 ## Getting started
 
 For the best introduction to `git flow`, read Jeff Kreeftmeijer's blog post:
