@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.borisovcode.gitflow'
-version = '1.0.4'
+version = '1.0.5'
 
 repositories {
     mavenCentral()
@@ -79,11 +79,11 @@ intellijPlatform {
     pluginConfiguration {
         id = 'com.borisovcode.gitflow.navigator'
         name = 'Gitflow Navigator'
-        version = '1.0.4'
+        version = '1.0.5'
         description = "Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next."
 
         vendor {
-            name = 'BorisovCode'
+            name = 'BORISOVCODE'
             url = 'https://github.com/borisovcode'
         }
 
@@ -94,6 +94,11 @@ intellijPlatform {
         }
 
         changeNotes = """
+
+      <H2>Changelog for 1.0.5</H2>
+      <ul>
+        <li>Vendor name is now BORISOVCODE</li>
+      </ul>
 
       <H2>Changelog for 1.0.4</H2>
       <ul>

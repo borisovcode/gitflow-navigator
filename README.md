@@ -73,4 +73,4 @@ Issues and pull requests are welcome at
 Apache License 2.0 — see [LICENSE.txt](LICENSE.txt) and [NOTICE](NOTICE).
 
 Copyright 2013-2021 Opher Vishnia and contributors.
-Copyright 2026 BorisovCode.
+Copyright 2026 BORISOVCODE.

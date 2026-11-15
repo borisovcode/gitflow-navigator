@@ -5,7 +5,7 @@
     <description>SET_BY_GRADLE</description>
     <version>SET_BY_GRADLE</version>
     <category>VCS Integration</category>
-    <vendor url="https://github.com/borisovcode">BorisovCode</vendor>
+    <vendor url="https://github.com/borisovcode">BORISOVCODE</vendor>
 
     <depends>com.intellij.modules.vcs</depends>
     <depends>com.intellij.tasks</depends>

@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-11-15
+
+### Changed
+- Vendor name is written **BORISOVCODE** everywhere (plugin descriptor, build
+  scripts, release workflow, documentation).
+
 ## [1.0.4] - 2026-11-15
 
 ### Changed
@@ -61,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - New plugin identity: ID `com.borisovcode.gitflow.navigator`, vendor
-  **BorisovCode**, action/menu/widget/notification/state identifiers renamed to
+  **BORISOVCODE**, action/menu/widget/notification/state identifiers renamed to
   avoid clashing with the original plugin.
 - Build migrated to the IntelliJ Platform Gradle Plugin 2.x, Gradle 9.8.1 and a
   Java 25 toolchain.
@@ -77,7 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Based on *Git Flow Integration* by Opher Vishnia and contributors
   (Apache License 2.0). See [NOTICE](NOTICE).
 
-[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.5...HEAD
+[1.0.5]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.1...v1.0.2

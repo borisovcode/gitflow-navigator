@@ -47,7 +47,7 @@ jobs:
               <idea-version since-build="262" />
               <name>Gitflow Navigator</name>
               <description>Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next.</description>
-              <vendor>BorisovCode</vendor>
+              <vendor>BORISOVCODE</vendor>
             </plugin>
           </plugins>
           EOF

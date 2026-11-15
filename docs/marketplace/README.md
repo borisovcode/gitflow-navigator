@@ -18,7 +18,7 @@ Assets for the JetBrains Marketplace listing of **Gitflow Navigator**.
 
 ## Marketplace checklist
 
-- [ ] Vendor profile: **BorisovCode**
+- [ ] Vendor profile: **BORISOVCODE**
 - [ ] Plugin icon: `icon-512.png` (the plugin also ships
       `META-INF/pluginIcon.svg` and `META-INF/pluginIcon_dark.svg`)
 - [ ] Description: [`../MARKETPLACE.md`](../MARKETPLACE.md)

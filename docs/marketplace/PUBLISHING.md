@@ -25,7 +25,7 @@ Everything needed to fill the **Upload plugin** form for **Gitflow Navigator 1.0
 | --- | --- |
 | Name | `Gitflow Navigator` |
 | Plugin ID | `com.borisovcode.gitflow.navigator` |
-| Vendor | `BorisovCode` |
+| Vendor | `BORISOVCODE` |
 | Vendor URL | `https://github.com/borisovcode` |
 | Category | **Version Control** |
 | Tags | `git`, `git-flow`, `gitflow`, `branching`, `workflow`, `vcs` |
@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/borisovcode/gitflow-navigator/main/docs/market
 
 - [ ] Logged in to https://plugins.jetbrains.com with the JetBrains Account
 - [ ] Email of the account is verified
-- [ ] Vendor profile **BorisovCode** selected or created
+- [ ] Vendor profile **BORISOVCODE** selected or created
 - [ ] Developer Agreement accepted
 - [ ] ZIP uploaded (148 KB, well under the 400 MB limit)
 - [ ] Description pasted from [`DESCRIPTION.md`](DESCRIPTION.md)
