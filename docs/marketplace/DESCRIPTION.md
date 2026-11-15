@@ -62,11 +62,13 @@ released as they appear.
 
 ## Why a fork?
 
-The original *Git Flow Integration* plugin is no longer maintained and does not
-run on recent IntelliJ Platform releases. Gitflow Navigator keeps the UI developers
-already know, fixes the platform incompatibilities, and adds support for
-git-flow-next — so you do not have to give up the Git Flow workflow when you
-upgrade your IDE.
+The original *Git Flow Integration* plugin has not shipped a release for more than
+five years — the last one, 0.7.7, dates back to August 2021 — and it no longer runs
+on recent IntelliJ Platform releases. Compatibility fixes offered upstream,
+including a port to the 2026.2/2026.3 platform, have not been merged. Gitflow
+Navigator keeps the UI developers already know, fixes those incompatibilities, and
+adds support for git-flow-next — so you do not have to give up the Git Flow
+workflow when you upgrade your IDE.
 
 > If the original *Git Flow Integration* plugin is installed, uninstall it to avoid
 > duplicate menu entries.

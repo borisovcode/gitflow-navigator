@@ -37,7 +37,7 @@ Everything needed to fill the **Upload plugin** form for **Gitflow Navigator 1.0
 | Hidden | off |
 | Icon | `docs/marketplace/icon-512.png` (also ships `pluginIcon.svg` + `pluginIcon_dark.svg`) |
 | Screenshots | `docs/marketplace/screenshots/01-menu.png`, `02-start-feature.png`, `03-options.png` |
-| Description | [`DESCRIPTION.md`](DESCRIPTION.md) — 4 227 characters |
+| Description | [`DESCRIPTION.md`](DESCRIPTION.md) — 4 411 characters |
 
 ## What's new (release notes for 1.0.4)
 
