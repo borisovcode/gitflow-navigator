@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-11-15
+
+### Changed
+- Final plugin icon: two branches (blue on top, teal at the bottom) merge into a
+  single node, with a `< = >` code tag in the centre, on a navy tile.
+- Dark-theme icon uses lifted accents (`pluginIcon_dark.svg`).
+- Marketplace icons regenerated (512/128 px, dark 512 px) and the scale-check
+  sheet updated; icon sources renamed to `docs/marketplace/icon/merge-flow*.svg`.
+
 ## [1.0.3] - 2026-11-15
 
 ### Changed
@@ -68,7 +77,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Based on *Git Flow Integration* by Opher Vishnia and contributors
   (Apache License 2.0). See [NOTICE](NOTICE).
 
-[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.0...v1.0.1

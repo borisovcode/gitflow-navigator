@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="tile" x1="0.05" y1="0" x2="0.65" y2="1">
+      <stop offset="0" stop-color="#102C52"/>
+      <stop offset="1" stop-color="#040B18"/>
+    </linearGradient>
+    <mask id="holes">
+      <rect width="40" height="40" fill="#fff"/>
+      <circle cx="9.6" cy="11.6" r="1.15" fill="#000"/>
+      <circle cx="9.6" cy="27.0" r="1.15" fill="#000"/>
+      <circle cx="30.8" cy="19.3" r="1.15" fill="#000"/>
+    </mask>
+  </defs>
+
+  <rect x="0.4" y="0.4" width="39.2" height="39.2" rx="9" fill="url(#tile)" stroke="#1E4066" stroke-width="0.6"/>
+
+  <g mask="url(#holes)">
+    <!-- blue branch: top-left -> bend -> merged node -->
+    <path d="M9.6 11.6 H19.2 Q21.5 11.6 22.9 13.4 L30.8 19.3"
+          fill="none" stroke="#3B8BFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- teal branch: bottom-left -> bend -> merged node -->
+    <path d="M9.6 27.0 H19.2 Q21.5 27.0 22.9 25.2 L30.8 19.3"
+          fill="none" stroke="#3FE8CE" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- nodes -->
+    <circle cx="9.6" cy="11.6" r="2.1" fill="none" stroke="#3B8BFF" stroke-width="1.9"/>
+    <circle cx="9.6" cy="27.0" r="2.1" fill="none" stroke="#3FE8CE" stroke-width="1.9"/>
+    <circle cx="30.8" cy="19.3" r="2.1" fill="none" stroke="#3B8BFF" stroke-width="1.9"/>
+  </g>
+
+  <!-- code tag -->
+  <path d="M13.4 17.3 11.4 19.3 13.4 21.3" fill="none" stroke="#3B8BFF"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="14.4" y="17.18" width="5.2" height="1.5" rx="0.75" fill="#FFFFFF"/>
+  <rect x="14.4" y="19.92" width="5.2" height="1.5" rx="0.75" fill="#FFFFFF"/>
+  <path d="M20.6 17.3 22.6 19.3 20.6 21.3" fill="none" stroke="#3FE8CE"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
