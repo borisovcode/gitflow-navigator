@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.borisovcode.gitflow'
-version = '1.0.2'
+version = '1.0.3'
 
 repositories {
     mavenCentral()
@@ -79,7 +79,7 @@ intellijPlatform {
     pluginConfiguration {
         id = 'com.borisovcode.gitflow.navigator'
         name = 'Gitflow Navigator'
-        version = '1.0.2'
+        version = '1.0.3'
         description = "Gitflow Navigator - a Git Flow UI for JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm). A maintained fork of Git Flow Integration supporting git-flow AVH and git-flow-next."
 
         vendor {
@@ -94,6 +94,12 @@ intellijPlatform {
         }
 
         changeNotes = """
+
+      <H2>Changelog for 1.0.3</H2>
+      <ul>
+        <li>New plugin icon: a route with waypoints that turns into a forward arrow</li>
+        <li>Matching dark-theme icon</li>
+      </ul>
 
       <H2>Changelog for 1.0.2</H2>
       <ul>

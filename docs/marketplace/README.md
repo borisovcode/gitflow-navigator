@@ -5,6 +5,9 @@ Assets for the JetBrains Marketplace listing of **Gitflow Navigator**.
 | File | Purpose |
 | --- | --- |
 | `icon-512.png`, `icon-128.png` | Plugin icon for the listing, rendered from `src/main/resources/META-INF/pluginIcon.svg` |
+| `icon-dark-512.png` | Dark-theme icon preview, rendered from `pluginIcon_dark.svg` |
+| `icon/route-map.svg`, `icon/route-map-dark.svg` | Source SVG of the icon (same files as in `META-INF`) |
+| `icon/preview.png` | Scale check: 16 / 32 / 64 px plus 128 px light and dark |
 | `screenshots/01-menu.png` | The **Git → Gitflow Navigator** menu |
 | `screenshots/02-start-feature.png` | The **New Feature…** dialog |
 | `screenshots/03-options.png` | **Settings → Gitflow Navigator** |

@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-15
+
+### Changed
+- New plugin icon: a route with two waypoints that ends in a forward arrow,
+  on a light tile; the waypoint ring and the arrow head stay legible at 16 px.
+- Matching dark-theme icon (`pluginIcon_dark.svg`).
+- Marketplace icon regenerated at 512 and 128 px; added a dark 512 px preview.
+
 ## [1.0.2] - 2026-11-15
 
 ### Added
@@ -60,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Based on *Git Flow Integration* by Opher Vishnia and contributors
   (Apache License 2.0). See [NOTICE](NOTICE).
 
-[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/borisovcode/gitflow-navigator/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/borisovcode/gitflow-navigator/releases/tag/v1.0.0
